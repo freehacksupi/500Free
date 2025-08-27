@@ -1,236 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>₹500 Instant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f6f7fb;
-      --card:#ffffff;
-      --primary:#6366f1;
-      --primary2:#3b82f6;
-      --success:#22c55e;
-      --dark:#0f172a;
-      --shadow:0 6px 16px rgba(0,0,0,.1);
-      --radius:18px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
-      background:var(--bg);
-      color:var(--dark);
-      display:flex;justify-content:center;
-      min-height:100vh;
-      padding:12px;
-    }
-    .card{
-      width:100%;
-      max-width:420px;
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      animation:fadeIn .8s ease;
-    }
-    @keyframes fadeIn {
-      from{opacity:0;transform:translateY(20px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-    .hero{
-      background:linear-gradient(135deg,#ff8fb5,#ff6f90);
-      padding:20px 12px;
-      text-align:center;
-      color:#fff;
-      animation:popIn .8s ease;
-    }
-    @keyframes popIn {
-      0%{transform:scale(0.9);opacity:0}
-      100%{transform:scale(1);opacity:1}
-    }
-    .coin{
-      width:60px;height:60px;
-      border-radius:50%;
-      margin:10px auto;
-      display:grid;place-items:center;
-      background:gold;
-      font-weight:900;
-      font-size:24px;
-      color:#fff;
-      animation:spin 2s infinite linear;
-    }
-    @keyframes spin {
-      from{transform:rotate(0deg)}
-      to{transform:rotate(360deg)}
-    }
-    .hero h1{font-size:36px;margin-top:6px;}
-    .hero h1 small{display:block;font-size:14px;}
-    .section{padding:14px 16px;animation:fadeIn .9s ease;}
-    .title{font-weight:800;font-size:16px;margin-bottom:6px}
-    .subtitle{font-size:13px;color:#555;margin-bottom:12px}
-
-    /* Join Button Style */
-    .btn{
-      width:100%;
-      border:none;
-      border-radius:var(--radius);
-      padding:14px;
-      font-weight:700;
-      font-size:14px;
-      cursor:pointer;
-      margin-bottom:10px;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      color:#fff;
-      transition:all .25s ease;
-      animation:btnPop .5s ease;
-    }
-    .btn:hover{transform:scale(1.04);box-shadow:0 4px 10px rgba(0,0,0,.15)}
-    @keyframes btnPop {
-      0%{opacity:0;transform:scale(.9)}
-      100%{opacity:1;transform:scale(1)}
-    }
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-    .btn-success{background:linear-gradient(135deg,#16a34a,#22c55e)!important}
-
-    .input{
-      width:100%;padding:12px;
-      border:1.5px solid #ddd;
-      border-radius:12px;font-size:14px;
-      margin-top:8px;margin-bottom:12px;
-    }
-    .pill-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-    .pill{padding:8px 10px;background:#eee;border-radius:12px;font-size:12px;font-weight:700}
-    .pill.success{background:#22c55e1a;color:#16a34a}
-    .hidden{display:none!important}
-    .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
-      background:#111827;color:#fff;padding:10px 12px;border-radius:12px;
-      font-weight:700;font-size:13px;opacity:0;transition:.25s;z-index:999}
-    .toast.show{opacity:1}
-  </style>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <style>
+        /* Simple styling for Admin Panel */
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        h1, h2 { color: #333; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input[type="text"] { width: 70%; padding: 8px; margin-right: 10px; }
+        button { padding: 8px 15px; cursor: pointer; }
+        #buttons-list, #requests-list { list-style-type: none; padding: 0; }
+        #buttons-list li, #requests-list li { background: #eee; margin: 5px 0; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .delete-btn { background: #e53e3e; color: white; border: none; }
+    </style>
 </head>
 <body>
-  <main class="card" id="app">
+    <div class="container">
+        <h1>Admin Panel</h1>
 
-    <!-- HERO -->
-    <div class="hero">
-      <div class="coin">₹</div>
-      <h1>₹500 <small>INSTANT</small></h1>
+        <!-- Section to manage Join Buttons -->
+        <section>
+            <h2>Manage Join Buttons</h2>
+            <div id="button-manager">
+                <input type="text" id="new-link-input" placeholder="Enter Telegram Link (https://...)">
+                <button id="add-btn">Add Button</button>
+            </div>
+            <ul id="buttons-list"></ul>
+        </section>
+
+        <hr style="margin: 30px 0;">
+
+        <!-- Section to view Withdraw Requests -->
+        <section>
+            <h2>Withdraw Requests</h2>
+            <ul id="requests-list"></ul>
+        </section>
     </div>
 
-    <!-- STEP 1: JOIN -->
-    <section class="section" id="step-join">
-      <div class="title">Join All 10 Channels to Unlock Reward</div>
-      <p class="subtitle">Click all 10 join buttons below to claim your <b>₹500</b> UPI reward!</p>
-      <div id="joinButtons"></div>
-      <button class="btn" id="btnContinue" disabled>🔒 Join All Channels First (0/10)</button>
-      <div class="pill-row">
-        <div class="pill">100% SECURE</div>
-        <div class="pill">INSTANT</div>
-        <div class="pill success">TRUSTED</div>
-      </div>
-    </section>
-
-    <!-- STEP 2: ENTER UPI -->
-    <section class="section hidden" id="step-upi">
-      <div class="title">Enter Your UPI ID:</div>
-      <input class="input" id="upi" placeholder="example@paytm" />
-      <p class="subtitle">Make sure it's correct for instant transfer!</p>
-      <button class="btn" id="btnSend" disabled>₹500 REWARD SENT!</button>
-      <div class="pill-row">
-        <div class="pill">100% SECURE</div>
-        <div class="pill">INSTANT</div>
-        <div class="pill success">TRUSTED</div>
-      </div>
-    </section>
-  </main>
-
-  <div class="toast" id="toast">Done</div>
-
-  <script>
-    const REQUIRED = 10;
-    // 👉 Custom Links for Join Buttons
-    const links = [
-      "https://t.me/channel1",
-      "https://t.me/channel2",
-      "https://t.me/channel3",
-      "https://t.me/channel4",
-      "https://t.me/channel5",
-      "https://t.me/channel6",
-      "https://t.me/channel7",
-      "https://t.me/channel8",
-      "https://t.me/channel9",
-      "https://t.me/channel10"
-    ];
-
-    const joinButtonsDiv = document.getElementById('joinButtons');
-    const btnContinue = document.getElementById('btnContinue');
-    const stepJoin = document.getElementById('step-join');
-    const stepUpi = document.getElementById('step-upi');
-    const upi = document.getElementById('upi');
-    const btnSend = document.getElementById('btnSend');
-    const toast = document.getElementById('toast');
-
-    let joined = 0;
-
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(()=>toast.classList.remove('show'),1500);
-    }
-
-    // Generate Join Buttons
-    for(let i=0;i<REQUIRED;i++){
-      const b=document.createElement('button');
-      b.className='btn';
-      b.textContent=`JOIN CHANNEL ${i+1}`;
-      b.onclick=()=>{
-        window.open(links[i] || "https://t.me/",'_blank');
-        if(!b.classList.contains('btn-success')){
-          joined++;
-          b.classList.add('btn-success');
-          showToast(`Joined ${joined}/${REQUIRED}`);
-          updateProgress();
-        }
-      };
-      joinButtonsDiv.appendChild(b);
-    }
-
-    function updateProgress(){
-      btnContinue.textContent = joined>=REQUIRED?`✅ All Channels Joined (${joined}/${REQUIRED})`:`🔒 Join All Channels First (${joined}/${REQUIRED})`;
-      btnContinue.disabled = joined<REQUIRED;
-    }
-
-    btnContinue.addEventListener('click',()=>{
-      if(joined>=REQUIRED){
-        stepJoin.classList.add('hidden');
-        stepUpi.classList.remove('hidden');
-        upi.focus();
-      }
-    });
-
-    upi.addEventListener('input',()=>{
-      const val=upi.value.trim();
-      const valid=/^[a-zA-Z0-9._-]{3,256}@[a-zA-Z]{2,64}$/.test(val);
-      if(valid){
-        btnSend.disabled=false;
-        btnSend.textContent='SEND ₹500 REWARD';
-      } else {
-        btnSend.disabled=true;
-        btnSend.textContent='₹500 REWARD SENT!';
-      }
-    });
-
-    btnSend.addEventListener('click',()=>{
-      if(!btnSend.disabled){
-        btnSend.disabled=true;
-        btnSend.classList.add('btn-success');
-        btnSend.textContent='✅ REWARD SENT!';
-        showToast('₹500 Reward Sent!');
-      }
-    });
-
-    updateProgress();
-  </script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
